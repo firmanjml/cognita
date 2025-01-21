@@ -23,7 +23,7 @@ services:
       retries: 5
       start_period: 15s
     networks:
-      - cognita-docker
+      - dokploy-network
 
   ollama-server:
     image: ollama/ollama:0.1.42
@@ -49,7 +49,7 @@ services:
     entrypoint: /bin/bash
     command: -c "set -e; ollama serve & sleep 10 && ollama pull ${OLLAMA_MODEL} && sleep infinity"
     networks:
-      - cognita-docker
+      - dokploy-network
 
   infinity-server:
     image: michaelf34/infinity:0.0.63
@@ -74,7 +74,7 @@ services:
       - INFINITY_API_KEY=${INFINITY_API_KEY}
     command: v2
     networks:
-      - cognita-docker
+      - dokploy-network
 
   qdrant-server:
     image: qdrant/qdrant:v1.8.4
@@ -97,7 +97,7 @@ services:
     volumes:
       - ./volumes/qdrant_storage:/qdrant/storage:z
     networks:
-      - cognita-docker
+      - dokploy-network
 
   unstructured-io-parsers:
     # Docs: http://localhost:9500/general/docs
@@ -127,7 +127,7 @@ services:
       retries: 3
       start_period: 5s
     networks:
-      - cognita-docker
+      - dokploy-network
 
   # https://github.com/fedirz/faster-whisper-server/tree/master
   faster-whisper:
@@ -149,7 +149,7 @@ services:
     volumes:
       - ./volumes/hugging_face_cache:/root/.cache/huggingface
     networks:
-      - cognita-docker
+      - dokploy-network
 
   cognita-backend:
     build:
@@ -202,7 +202,7 @@ services:
       - seccomp:./seccomp.json
     command: -c "set -e; prisma db push --schema ./backend/database/schema.prisma && uvicorn --host 0.0.0.0 --port 8000 backend.server.app:app --reload"
     networks:
-      - cognita-docker
+      - dokploy-network
 
   cognita-frontend:
     build:
@@ -229,7 +229,7 @@ services:
     entrypoint: /bin/bash
     command: -c "set -e; yarn install --frozen-lockfile && yarn dev --host 0.0.0.0"
     networks:
-      - cognita-docker
+      - dokploy-network
 
 networks:
   dokploy-network:

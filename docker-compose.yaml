@@ -205,10 +205,10 @@ services:
       - dokploy-network
     labels:
       - traefik.enable=true
-      - traefik.http.routers.cognita-frontend.rule=Host(`cognita-backend.ai.adaptivegroups.asia`)
-      - traefik.http.routers.cognita-frontend.entrypoints=websecure
-      - traefik.http.routers.cognita-frontend.tls.certResolver=letsencrypt
-      - traefik.http.services.cognita-frontend.loadbalancer.server.port=8000
+      - traefik.http.routers.cognita-backend.rule=Host(`cognita-backend.ai.adaptivegroups.asia`)
+      - traefik.http.routers.cognita-backend.entrypoints=websecure
+      - traefik.http.routers.cognita-backend.tls.certResolver=letsencrypt
+      - traefik.http.services.cognita-backend.loadbalancer.server.port=8000
 
   cognita-frontend:
     build:

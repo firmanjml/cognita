@@ -232,5 +232,5 @@ services:
       - cognita-docker
 
 networks:
-  cognita-docker:
-    external: false
+  dokploy-network:
+    external: true

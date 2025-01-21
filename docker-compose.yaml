@@ -134,6 +134,12 @@ services:
       start_period: 5s
     networks:
       - dokploy-network
+    deploy:
+      resources:
+        limits:
+          memory: 4G
+        reservations:
+          memory: 3G
 
   # https://github.com/fedirz/faster-whisper-server/tree/master
   faster-whisper:

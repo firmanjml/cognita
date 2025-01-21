@@ -203,12 +203,12 @@ services:
     command: -c "set -e; prisma db push --schema ./backend/database/schema.prisma && uvicorn --host 0.0.0.0 --port 8000 backend.server.app:app --reload"
     networks:
       - dokploy-network
-        labels:
-          - traefik.enable=true
-          - traefik.http.routers.cognita-frontend.rule=Host(`cognita-backend.ai.adaptivegroups.asia`)
-          - traefik.http.routers.cognita-frontend.entrypoints=websecure
-          - traefik.http.routers.cognita-frontend.tls.certResolver=letsencrypt
-          - traefik.http.services.cognita-frontend.loadbalancer.server.port=8000
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.cognita-frontend.rule=Host(`cognita-backend.ai.adaptivegroups.asia`)
+      - traefik.http.routers.cognita-frontend.entrypoints=websecure
+      - traefik.http.routers.cognita-frontend.tls.certResolver=letsencrypt
+      - traefik.http.services.cognita-frontend.loadbalancer.server.port=8000
 
   cognita-frontend:
     build:

@@ -25,57 +25,6 @@ services:
     networks:
       - dokploy-network
 
-  ollama-server:
-    image: ollama/ollama:0.1.42
-    pull_policy: if_not_present
-    restart: unless-stopped
-    container_name: ollama
-    profiles:
-      - ollama
-    volumes:
-      - ./volumes/ollama:/root/.ollama
-    ports:
-      - 11434:11434
-    healthcheck:
-      test: ["CMD", "ollama", "list"]
-      interval: 30s
-      timeout: 5s
-      retries: 3
-      start_period: 60s
-    environment:
-      - OLLAMA_KEEP_ALIVE=24h
-      - OLLAMA_HOST=0.0.0.0
-      - OLLAMA_PORT=11434
-    entrypoint: /bin/bash
-    command: -c "set -e; ollama serve & sleep 10 && ollama pull ${OLLAMA_MODEL} && sleep infinity"
-    networks:
-      - dokploy-network
-
-  infinity-server:
-    image: michaelf34/infinity:0.0.63
-    pull_policy: if_not_present
-    restart: unless-stopped
-    container_name: infinity
-    profiles:
-      - infinity
-    ports:
-      - "7997:7997"
-    volumes:
-      - ./volumes/infinity:/app/.cache
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:7997/health"]
-      interval: 30s
-      timeout: 5s
-      retries: 10
-      start_period: 30s
-    environment:
-      - INFINITY_MODEL_ID=${INFINITY_EMBEDDING_MODEL};${INFINITY_RERANKING_MODEL}
-      - INFINITY_BATCH_SIZE=8
-      - INFINITY_API_KEY=${INFINITY_API_KEY}
-    command: v2
-    networks:
-      - dokploy-network
-
   qdrant-server:
     image: qdrant/qdrant:v1.8.4
     pull_policy: if_not_present

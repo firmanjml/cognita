@@ -98,6 +98,12 @@ services:
       - ./volumes/qdrant_storage:/qdrant/storage:z
     networks:
       - dokploy-network
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.qdrant-server.rule=Host(`qdrant.ai.adaptivegroups.asia`)
+      - traefik.http.routers.qdrant-server.entrypoints=websecure
+      - traefik.http.routers.qdrant-server.tls.certResolver=letsencrypt
+      - traefik.http.services.qdrant-server.loadbalancer.server.port=6333
 
   unstructured-io-parsers:
     # Docs: http://localhost:9500/general/docs

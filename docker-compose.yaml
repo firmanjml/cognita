@@ -230,6 +230,12 @@ services:
     command: -c "set -e; yarn install --frozen-lockfile && yarn dev --host 0.0.0.0"
     networks:
       - dokploy-network
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.cognita-frontend.rule=Host(`cognita.ai.adaptivegroups.asia`)
+      - traefik.http.routers.cognita-frontend.entrypoints=websecure
+      - traefik.http.routers.cognita-frontend.tls.certResolver=letsencrypt
+      - traefik.http.services.cognita-frontend.loadbalancer.server.port=5001
 
 networks:
   dokploy-network:
